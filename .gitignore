@@ -1,0 +1,7 @@
+*.exe
+*.pdb
+*.ilk
+nimcache
+*.dll
+/build
+__pycache__
