@@ -1,13 +1,21 @@
 import sqlite3
 import sqlite3ext
 import vecmath
-import sqlite3_utils
+#import sqlite3_utils
+
+
 sqlite_extension_init1()
 proc print_mat4f(db: Pcontext, nArgs: int32, args: PValueArg) {.cdecl.} =
+    var bytes = value_bytes(args[0])
+    if bytes != sizeof(Mat4f):
+        echo "Value is not a matrix"
     var a = cast[ptr Mat4f](value_blob(args[0]))
     echo vecmath.`$`(a[])
+    GC_fullcollect()
+    
 proc mult_mat4f(db: Pcontext, nArgs: int32, args: PValueArg) {.cdecl, exportc, dynlib.} = 
     assert nArgs == 2
+    
     var a: ptr Mat4f = cast[ptr Mat4f](value_blob(args[0]))
     var b: ptr Mat4f = cast[ptr Mat4f](value_blob(args[1]))
     var res = mul(a[], b[])

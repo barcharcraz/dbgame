@@ -46,12 +46,11 @@ CREATE TABLE "camera_data" (
 -- I don't want to rely on it for rendering so I'll
 -- design some RCTE to propigate the transforms
 CREATE TABLE "node_data" (
-	id integer primary key
+	id integer primary key,
 	scene integer references scene_data(id) on delete cascade,
 	name text,
 	transform blob, --4x4 float matrix
-	parent integer references node_data(id) on delete cascade,
-
+	parent integer references node_data(id) on delete cascade
 );
 
 CREATE TABLE "node_mesh_data" (

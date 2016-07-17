@@ -5,3 +5,7 @@ nimcache
 *.dll
 /build
 __pycache__
+*.lib
+*.ndb
+*.exp
+*.ilk

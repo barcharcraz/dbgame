@@ -582,7 +582,7 @@ when not defined(SQLITE_CORE) and not defined(SQLITE_OMIT_LOAD_EXTENSION):
   
     template system_errno_tmpl*{system_errno(x)}(x: varargs[untyped]): untyped = sqlite3_api.system_errno(x)
 
-when not defined(SQLITE_CORE) and not defined(SQLITE_OMIT_LOAD_EXTENSION):
+when appType == "lib" and not defined(SQLITE_CORE) and not defined(SQLITE_OMIT_LOAD_EXTENSION):
   ## # This case when the file really is being compiled as a loadable 
   ## #  * extension 
   template sqlite_extension_init1*(): expr =
