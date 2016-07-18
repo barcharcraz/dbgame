@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/qml">
+        <file>qml/Actions.qml</file>
+        <file>qml/EditorMenuBar.qml</file>
+        <file>qml/qml.qml</file>
+        <file>qml/qmldir</file>
+    </qresource>
+</RCC>

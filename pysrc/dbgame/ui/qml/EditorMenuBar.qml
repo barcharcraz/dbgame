@@ -1,4 +1,12 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.4
-
-Menu
+import "."
+MenuBar {
+  Menu {
+    title: "&File"
+    MenuItem {
+      //text: "Open Database"
+      action: Actions.openDB
+    }
+  }
+}
