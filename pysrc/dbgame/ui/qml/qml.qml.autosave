@@ -11,6 +11,8 @@ ApplicationWindow {
   menuBar: EditorMenuBar {}
 
   TableView {
-
+    TableViewColumn {
+        role: ""
+    }
   }
 }
