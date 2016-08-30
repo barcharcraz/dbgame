@@ -44,3 +44,4 @@ class DBGameQueryModel(QSqlQueryModel):
             self.setQuery(self._rawQuery, self._database)
 
 
+qmlRegisterType(DBGameQueryModel, "dbgame.models", 1, 0, "QueryModel")

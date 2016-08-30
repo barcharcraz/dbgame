@@ -9,6 +9,11 @@ ApplicationWindow {
   title: "Hello World"
 
   menuBar: EditorMenuBar {}
-
+  ListView {
+    anchors.fill: parent
+    model: QueryModel {
+      database:
+    }
+  }
 
 }

@@ -6,7 +6,7 @@ QtObject {
   property var openDB: Action {
     id: openDBAction
     text: "Open Database"
-    shortcut: StandardKey.Open
+    shortcut: "Ctrl+O"
     onTriggered: console.log("Triggered")
   }
 }
