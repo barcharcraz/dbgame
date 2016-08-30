@@ -1,3 +1,6 @@
+from PyQt5.QtGui import QGuiApplication
+from PyQt5.QtQml import QQmlApplicationEngine
+from . import DgbameQueryModel
 import os
 import sys
 

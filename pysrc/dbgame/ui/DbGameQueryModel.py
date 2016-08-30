@@ -1,7 +1,15 @@
 from PyQt5.QtSql import QSqlQueryModel, QSqlDatabase
 from PyQt5.QtCore import pyqtSignal, pyqtSlot, pyqtProperty
-from PyQt5.QtCore import QModelIndex, Qt
+from PyQt5.QtCore import QModelIndex, Qt, QObject
 from PyQt5.QtQml import qmlRegisterSingletonType, qmlRegisterType
+
+class DatabaseManager(QObject):
+    changed = pyqtSignal()
+    def add_database(self, type: str, name: str) -> QSqlDatabase:
+        result = QSqlDatabase.addDatabase(type, name)
+        self.changed.emit()
+        return result
+
 
 class DBGameQueryModel(QSqlQueryModel):
     def __init__(self, parent=None):
@@ -43,5 +51,8 @@ class DBGameQueryModel(QSqlQueryModel):
         if self._database is not None:
             self.setQuery(self._rawQuery, self._database)
 
+database_manager = DatabaseManager()
 
-qmlRegisterType(DBGameQueryModel, "dbgame.models", 1, 0, "QueryModel")
+
+qmlRegisterType(DBGameQueryModel, "dbgame.models", 1, 0, 'QueryModel')
+qmlRegisterSingletonType(DatabaseManager, "dbgame", 1, 0, "DatabaseManager", lambda: database_manager)

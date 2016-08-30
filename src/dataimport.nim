@@ -5,10 +5,13 @@ import assimp
 import os
 import tables
 import hashes
+
+
 type FileIndices = object
   mesh_ids: seq[int64]
   node_ids: Table[PNode, int64]
   texture_ids: seq[int64]
+
 
 proc importMesh(db: PSqlite3, name: string, mesh: TMesh, scene: int64): int64 =
   var stmt: Pstmt
@@ -17,9 +20,9 @@ proc importMesh(db: PSqlite3, name: string, mesh: TMesh, scene: int64): int64 =
              -1, stmt, nil)
   if res != SQLITE_OK: dbError(db)
   check(db): stmt.bind_int64(1, scene)
-  if name == nil: 
+  if name == nil:
     check(db): stmt.bind_null(2)
-  else: 
+  else:
     check(db): stmt.bind_text(2, name, -1, SQLITE_STATIC)
   res = stmt.bind_blob(3, mesh.vertices, mesh.vertexCount * 3 * sizeof(float32).int32, SQLITE_STATIC)
   if res != SQLITE_OK: dbError(db)
