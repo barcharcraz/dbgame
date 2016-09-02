@@ -104,6 +104,7 @@ proc ogl_imgui_init(win: Win): bool =
   win.scrollCb = ogl_imgui_scrollCb
   win.keyCb = ogl_imgui_keyCb
   win.charCb = ogl_imgui_charCb
+  
 
   result = true
 
