@@ -5,7 +5,12 @@ import assimp
 import os
 import tables
 import hashes
+import commandeer
 
+commandline:
+  argument indb, string
+  argument outdb, string
+  argument scenefile, string
 
 type FileIndices = object
   mesh_ids: seq[int64]
@@ -133,7 +138,7 @@ proc importScene(db: PSqlite3, file: string) =
   fixupNodes(db, indices)
 
 when isMainModule:
-  var db = load_db(paramStr(1))
-  importScene(db, paramStr(2))
-  db.save_db(paramStr(3))
+  var db = load_db(indb)
+  importScene(db, scenefile)
+  db.save_db(outdb)
   discard sqlite3.close(db)
