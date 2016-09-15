@@ -5,7 +5,6 @@ find_package(Sqlite3 REQUIRED)
 find_package(ponder CONFIG REQUIRED)
 find_package(Boost REQUIRED)
 find_package(Eigen3 REQUIRED)
-find_package(Soci REQUIRED)
 add_executable(dbgame
     main.cpp
     datainterface.h
@@ -13,8 +12,6 @@ add_executable(dbgame
 )
 target_include_directories(dbgame PRIVATE 
     ${SQLITE3_INCLUDE_DIRS} 
-    ${EIGEN3_INCLUDE_DIR}
-    ${SOCI_INCLUDE_DIRS})
+    ${EIGEN3_INCLUDE_DIR})
 target_link_libraries(dbgame ${SQLITE3_LIBRARIES}
-                             ponder::ponder
-                             ${SOCI_LIBRARY})
+                             ponder::ponder)

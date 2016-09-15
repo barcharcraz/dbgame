@@ -13,3 +13,4 @@ __pycache__
 *.sqlite
 /.vscode
 *.user
+.idea/
