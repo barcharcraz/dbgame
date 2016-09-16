@@ -3,7 +3,7 @@
 *.ilk
 nimcache
 *.dll
-/build
+build
 __pycache__
 *.lib
 *.ndb
