@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION 3.6)
+project(dbgame_tests VERSION 0.1 LANGUAGES CXX)
+find_package(gtest REQUIRED)
+find_package(Eigen3 REQUIRED)
+find_package(ODB REQUIRED COMPONENTS sqlite)
+find_package(GEOS REQUIRED)
+set(dbgame_tests_src dataapi_tests.cpp test_types.h.h)
+
+add_executable(dbgame_tests ${dbgame_tests_src})
+target_link_libraries(dbgame_tests GTest::Main dataapi ${GEOS_LIBRARY})

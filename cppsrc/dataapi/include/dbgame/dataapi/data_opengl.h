@@ -4,7 +4,6 @@
 #include <string>
 #include <memory>
 #pragma db object table("opengl_call")
-
 class call {
 
 public:

@@ -5,11 +5,11 @@
 #pragma once
 #include <odb/core.hxx>
 #include <Eigen/Eigen>
-
-#pragma db value(Eigen::Vector3f)
-#pragma db member(Eigen::Vector3f::x) virtual(float)
-#pragma db member(Eigen::Vector3f::y) virtual(float)
-#pragma db member(Eigen::Vector3f::z) virtual(float)
+//#include "spatial_traits.h"
+#pragma db value(Eigen::Vector3f) type("blob")
+//#pragma db member(Eigen::Vector3f::x) virtual(float)
+//#pragma db member(Eigen::Vector3f::y) virtual(float)
+//#pragma db member(Eigen::Vector3f::z) virtual(float)
 
 #pragma db object table("rendering_vertex")
 class vertex {

@@ -13,12 +13,19 @@ set(dataapi_h
         include/dbgame/dataapi/data_opengl.h
         include/dbgame/dataapi/data_rendering.h
     )
-set(dataapi_src src/spatial_traits.cpp)
+set(dataapi_src src/spatial_traits.cpp
+                include/dbgame/dataapi/spatial_traits.h include/dbgame/dataapi/traits.h src/prologue.h src/epilogue.h)
+
 odb_compile(dataapi_src FILES ${dataapi_h} DB sqlite GENERATE_QUERY GENERATE_SCHEMA
     STANDARD c++14
+        HEADER_PROLOGUE src/prologue.h
+        HEADER_EPILOGUE src/epilogue.h
+        SOURCE_PROLOGUE src/prologue.h
+        SOURCE_EPILOGUE src/epilogue.h
     RELTO ${CMAKE_CURRENT_SOURCE_DIR}/include
     INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/include
-        ${EIGEN3_INCLUDE_DIR})
+        ${EIGEN3_INCLUDE_DIR}
+        ${SQLITE3_INCLUDE_DIRS})
 add_library(dataapi ${dataapi_src})
 
 target_include_directories(dataapi PUBLIC
@@ -26,11 +33,12 @@ target_include_directories(dataapi PUBLIC
     $<BUILD_INTERFACE:${ODB_COMPILE_OUTPUT_DIR}>
     $<INSTALL_INTERFACE:include>
         ${EIGEN3_INCLUDE_DIR}
+        ${SQLITE3_INCLUDE_DIRS}
     ${ODB_INCLUDE_DIRS}
     PRIVATE src
         ${GEOS_INCLUDE_DIR})
 target_link_libraries(dataapi PUBLIC ${ODB_LIBRARIES} glbinding
-        PRIVATE ${GEOS_LIBRARY})
+        ${GEOS_LIBRARY_CPP})
 
 install(TARGETS dataapi EXPORT dataapiConfig
     ARCHIVE DESTINATION lib

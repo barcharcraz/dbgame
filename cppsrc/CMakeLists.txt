@@ -31,3 +31,4 @@ target_link_libraries(dbgame ${SQLITE3_LIBRARIES}
 
 add_subdirectory(tools)
 add_subdirectory(dataapi)
+add_subdirectory(tests)

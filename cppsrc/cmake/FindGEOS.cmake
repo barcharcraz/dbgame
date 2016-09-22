@@ -23,6 +23,7 @@ IF(WIN32)
     IF (MINGW)
         FIND_PATH(GEOS_INCLUDE_DIR geos_c.h /usr/local/include /usr/include c:/msys/local/include)
         FIND_LIBRARY(GEOS_LIBRARY NAMES geos_c PATHS /usr/local/lib /usr/lib c:/msys/local/lib)
+        find_library(GEOS_LIBRARY_CPP geos PATHS /usr/local/lib /usr/lib)
     ENDIF (MINGW)
 
     IF (MSVC)
