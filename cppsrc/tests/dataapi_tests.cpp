@@ -10,10 +10,11 @@
 #include <odb/schema-catalog.hxx>
 #include <glbinding/gl/gl.h>
 #include <dbgame/dataapi/data_rendering.h>
-
+#include <Eigen/Core>
 using namespace odb::sqlite;
 using namespace std;
 using namespace odb;
+using namespace dbgame::data;
 using namespace Eigen;
 class DatabaseTests : public ::testing::Test {
 protected:
@@ -30,22 +31,7 @@ protected:
     }
 };
 
-TEST_F(DatabaseTests, GLCallQueryWorks) {
-    call c;
-    c.count = 1337;
-    c.program = 4;
-    c.vao = 5;
-    c.prim_type = gl::GL_TRIANGLE_STRIP;
-    odb::transaction t(db.begin());
-    auto id = db.persist(c);
-    t.commit();
-    call c2;
-    t.reset(db.begin());
-    db.load<call>(id, c2);
-    t.commit();
-    ASSERT_EQ(memcmp(&c, &c2, sizeof(call)), 0);
 
-}
 
 TEST_F(DatabaseTests, VectorStorageWorks) {
     Vector3f vec(3, 1.2, 0.001);

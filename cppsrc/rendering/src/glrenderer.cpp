@@ -14,6 +14,7 @@ using namespace std;
 using namespace odb;
 using namespace Eigen;
 using namespace gl;
+using namespace dbgame::data;
 namespace dbgame {
 namespace rendering {
 namespace gl {

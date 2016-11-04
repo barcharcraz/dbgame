@@ -13,6 +13,7 @@ using namespace std::literals::string_literals;
 using namespace std;
 using namespace gl;
 using namespace boost::filesystem;
+using namespace dbgame::data;
 static const unordered_map<string, GLenum> type_mapping{
     {".ps"s, GL_FRAGMENT_SHADER},
     {".vs"s, GL_VERTEX_SHADER}

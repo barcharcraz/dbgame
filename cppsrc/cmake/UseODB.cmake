@@ -170,7 +170,7 @@ function(odb_compile outvar)
 			string(REPLACE ";" " " _msg "${_msg}")
 			message(STATUS "${_msg}")
 		endif()
-        message("${ODB_ARGS}")
+        #message("${ODB_ARGS}")
 		add_custom_command(OUTPUT ${outputs}
 			COMMAND ${ODB_EXECUTABLE} ${ODB_ARGS} ${ODB_INCLUDE_PREFIX} "${input}"
 			DEPENDS "${input}"

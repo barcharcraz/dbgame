@@ -17,6 +17,7 @@
 #include <exception>
 
 using namespace std;
+using namespace dbgame::data;
 namespace dbgame {
 //returns a vector with the database id for each inserted mesh
 vector<unsigned int> import_meshes(const aiScene *scene, odb::database &db) {

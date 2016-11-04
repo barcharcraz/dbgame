@@ -6,7 +6,7 @@ find_package(Sqlite3 REQUIRED)
 find_package(ODB REQUIRED)
 find_package(glbinding REQUIRED)
 find_package(Boost COMPONENTS filesystem REQUIRED)
-find_package(assimp REQUIRED MODULE)
+find_package(assimp REQUIRED)
 
 
 set(tools_src import_shaders.cpp import_shaders.h import_assets.cpp import_assets.h)
@@ -27,4 +27,4 @@ target_include_directories(tools
 
 add_subdirectory(commands)
 
-
+cotire(tools)

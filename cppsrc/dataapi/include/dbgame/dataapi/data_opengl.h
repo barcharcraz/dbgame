@@ -3,7 +3,8 @@
 #include <glbinding/gl/enum.h>
 #include <string>
 #include <memory>
-#pragma db object table("opengl_call")
+
+namespace dbgame { namespace data {
 
 
 #pragma db object table("opengl_shader")
@@ -40,3 +41,5 @@ private:
     #pragma db id auto
     unsigned int id;
 };
+}
+}

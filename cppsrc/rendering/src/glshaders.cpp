@@ -10,6 +10,7 @@
 using namespace odb;
 using namespace gl;
 using namespace std;
+using namespace dbgame::data;
 namespace dbgame {
 namespace rendering {
 namespace gl {

@@ -16,7 +16,8 @@
 //#pragma db member(Eigen::Vector3f::x) virtual(float)
 //#pragma db member(Eigen::Vector3f::y) virtual(float)
 //#pragma db member(Eigen::Vector3f::z) virtual(float)
-
+namespace dbgame {
+namespace data {
 #pragma db object table("rendering_vertex")
 class vertex {
 public:
@@ -84,3 +85,5 @@ private:
     #pragma db id auto
     unsigned int id;
 };
+}
+}

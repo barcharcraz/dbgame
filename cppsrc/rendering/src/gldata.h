@@ -7,7 +7,8 @@
 #include <odb/core.hxx>
 #include <memory>
 #include <dbgame/dataapi/data_rendering.h>
-
+namespace dbgame {
+namespace data {
 class call {
 
 public:
@@ -25,7 +26,7 @@ private:
 #pragma db object table("opengl_vbo")
 class vbo {
 public:
-    std::shared_ptr<mesh> mesh;
+    std::shared_ptr<data::mesh> mesh;
     unsigned int position;
     unsigned int normal;
     unsigned int texcoord;
@@ -38,7 +39,7 @@ private:
 #pragma db object table("opengl_idx")
 class idx {
 public:
-    std::shared_ptr<mesh> mesh;
+    std::shared_ptr<data::mesh> mesh;
     unsigned int buf;
 private:
     friend class odb::access;
@@ -49,12 +50,14 @@ private:
 
 #pragma db view object(mesh) object(vbo)
 struct vbo_mesh_view {
-    std::shared_ptr<mesh> mesh;
-    std::shared_ptr<vbo> vbo;
+    std::shared_ptr<data::mesh> mesh;
+    std::shared_ptr<data::vbo> vbo;
 };
 
 #pragma  db view object(mesh) object(idx)
 struct idx_mesh_view {
-    std::shared_ptr<mesh> mesh;
-    std::shared_ptr<idx> idx;
+    std::shared_ptr<data::mesh> mesh;
+    std::shared_ptr<data::idx> idx;
 };
+}
+}

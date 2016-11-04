@@ -47,9 +47,6 @@ function(find_odb_api component)
 			${ODB_LIBRARY_PATH}
 			${PC_ODB_${component}_LIBRARY_DIRS})
 
-	set(ODB_${component_u}_INCLUDE_DIRS ${ODB_${component}_INCLUDE_DIR} CACHE STRING "ODB ${component} include dirs")
-	set(ODB_${component_u}_LIBRARIES ${ODB_${component}_LIBRARY} CACHE STRING "ODB ${component} libraries")
-
 	mark_as_advanced(ODB_${component}_INCLUDE_DIR ODB_${component}_LIBRARY)
 
 	if(ODB_${component_u}_INCLUDE_DIRS AND ODB_${component_u}_LIBRARIES)
@@ -70,45 +67,47 @@ find_program(odb_BIN
 		HINTS
 		${libodb_INCLUDE_DIR}/../bin)
 set(ODB_EXECUTABLE ${odb_BIN} CACHE STRING "ODB executable")
-find_package(odb NO_MODULE COMPONENTS ${odb_FIND_COMPONENTS})
+find_package(odb NO_MODULE COMPONENTS ${odb_FIND_COMPONENTS} OPTIONAL QUIET)
 if(NOT odb_FOUND)
-	message(INFO "ODB NOT FOUND")
-	find_package(PkgConfig QUIET)
-pkg_check_modules(PC_LIBODB QUIET "libodb")
+	find_package(PkgConfig)
+    pkg_check_modules(PC_LIBODB "libodb")
 
 
 
-set(ODB_LIBRARY_PATH "" CACHE STRING "Common library search hint for all ODB libs")
+#set(ODB_LIBRARY_PATH "" CACHE STRING "Common library search hint for all ODB libs")
 
-find_path(libodb_INCLUDE_DIR
-		NAMES odb/version.hxx
-		HINTS
-		${PC_LIBODB_INCLUDE_DIRS})
+    find_path(ODB_libodb_INCLUDE_DIR
+            NAMES odb/version.hxx
+            HINTS
+            ${PC_LIBODB_INCLUDE_DIRS}
+            /usr/include)
 
-find_library(libodb_LIBRARY
-		NAMES odb libodb
-		HINTS
-		${ODB_LIBRARY_PATH}
-		${PC_LIBODB_LIBRARY_DIRS})
+    find_library(ODB_libodb_LIBRARY
+            NAMES odb libodb
+            HINTS
+            ${ODB_LIBRARY_PATH}
+    )
 
-if(NOT TARGET odb::libodb)
-	add_library(odb::libodb UNKNOWN IMPORTED)
-	set_target_properties(odb::libodb PROPERTIES
-			IMPORTED_INCLUDE_DIRECTORIES ${ODB_LIBODB_INCLUDE_DIRS}
-			IMPORTED_LOCATION ${ODB_LIBODB_LIBRARIES})
+    if(NOT TARGET odb::libodb)
+        add_library(odb::libodb UNKNOWN IMPORTED)
+        message(${ODB_libodb_INCLUDE_DIR})
+        message(${ODB_libodb_LIBRARY})
+        set_target_properties(odb::libodb PROPERTIES
+                INTERFACE_INCLUDE_DIRECTORIES ${ODB_libodb_INCLUDE_DIR}
+                IMPORTED_LOCATION ${ODB_libodb_LIBRARY})
+    endif()
+    foreach(component ${ODB_FIND_COMPONENTS})
+        if(TARGET odb::libodb-${component})
+            continue()
+        endif()
+        find_odb_api(${component})
+        add_library(odb::libodb-${component} UNKNOWN IMPORTED)
+        set_target_properties(odb::libodb-${component} PROPERTIES
+                INTERFACE_INCLUDE_DIRECTORIES ${ODB_${component}_INCLUDE_DIR}
+                IMPORTED_LOCATION ${ODB_${component}_LIBRARY})
+
+    endforeach()
+
 endif()
-foreach(component ${ODB_FIND_COMPONENTS})
-	if(TARGET odb::libodb-${component})
-		continue()
-	endif()
-	find_odb_api(${component})
-	add_library(odb::libodb-${component} UNKNOWN IMPORTED)
-	set_target_properties(odb::libodb-${component} PROPERTIES
-			IMPORTED_INCLUDE_DIRECTORIES ${ODB_${component}_INCLUDE_DIRS}
-			IMPORTED_LOCATION ${ODB_${component}_LIBRARIES})
-
-endforeach()
-
-endif()
-#include(FindPackageHandleStandardArgs)
-#find_package_handle_standard_args(odb CONFIG_MODE)
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(odb DEFAULT_MSG ODB_libodb_LIBRARY ODB_libodb_INCLUDE_DIR)

@@ -3,7 +3,7 @@ find_package(Sqlite3 REQUIRED)
 #find_package(ponder CONFIG REQUIRED)
 find_package(Boost REQUIRED)
 find_package(Eigen3 REQUIRED)
-find_package(odb REQUIRED COMPONENTS sqlite libodb)
+find_package(ODB REQUIRED COMPONENTS sqlite libodb)
 find_package(glbinding REQUIRED)
 find_package(GEOS REQUIRED)
 include(${ODB_USE_FILE})
@@ -41,6 +41,8 @@ target_include_directories(dataapi PUBLIC
 target_link_libraries(dataapi PRIVATE odb::libodb-sqlite odb::libodb glbinding::glbinding
         ${GEOS_LIBRARY_CPP})
 
+cotire(dataapi)
+        
 install(TARGETS dataapi EXPORT dataapiConfig
     ARCHIVE DESTINATION lib
     LIBRARY DESTINATION lib
