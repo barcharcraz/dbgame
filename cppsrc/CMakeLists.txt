@@ -5,7 +5,7 @@ find_package(Sqlite3 REQUIRED)
 #find_package(ponder CONFIG REQUIRED)
 find_package(Boost REQUIRED)
 find_package(Eigen3 REQUIRED)
-find_package(ODB REQUIRED COMPONENTS sqlite)
+find_package(ODB REQUIRED COMPONENTS sqlite libodb)
 find_package(glbinding REQUIRED)
 include(${ODB_USE_FILE})
 set(dbgame_src
@@ -22,13 +22,14 @@ set_property(TARGET dbgame PROPERTY CXX_STANDARD 14)
 target_include_directories(dbgame PRIVATE 
     ${SQLITE3_INCLUDE_DIRS} 
     ${EIGEN3_INCLUDE_DIR}
-    ${ODB_INCLUDE_DIRS}
     ${ODB_COMPILE_OUTPUT_DIR})
 target_link_libraries(dbgame ${SQLITE3_LIBRARIES}
-                             ${ODB_LIBRARIES}
-                             glbinding
+                             odb::libodb
+                             odb::libodb-sqlite
+                             glbinding::glbinding
                              dataapi)
 
 add_subdirectory(tools)
 add_subdirectory(dataapi)
+add_subdirectory(rendering)
 add_subdirectory(tests)

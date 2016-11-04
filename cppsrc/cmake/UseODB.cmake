@@ -14,7 +14,7 @@ function(odb_compile outvar)
 	endif()
 
 	set(options GENERATE_QUERY GENERATE_SESSION GENERATE_SCHEMA GENERATE_PREPARED)
-	set(oneValueParams SCHEMA_FORMAT SCHEMA_NAME TABLE_PREFIX
+	set(oneValueParams SCHEMA_FORMAT SCHEMA_NAME TABLE_PREFIX INCLUDE_PREFIX
 		STANDARD SLOC_LIMIT
 		HEADER_PROLOGUE INLINE_PROLOGUE SOURCE_PROLOGUE
 		HEADER_EPILOGUE INLINE_EPILOGUE SOURCE_EPILOGUE
@@ -104,6 +104,10 @@ function(odb_compile outvar)
 		list(APPEND ODB_ARGS --cxx-epilogue-file "${PARAM_SOURCE_EPILOGUE}")
 	endif()
 
+    if(PARAM_INCLUDE_PREFIX)
+        list(APPEND ODB_ARGS --include-prefix "${PARAM_INCLUDE_PREFIX}")
+    endif()
+
 	if(PARAM_PROFILE)
 		list(APPEND ODB_ARGS --profile "${PARAM_PROFILE}")
 	endif()
@@ -148,7 +152,7 @@ function(odb_compile outvar)
             file(RELATIVE_PATH dname ${full_relto} "${full_input}")
             get_filename_component(dname "${dname}" DIRECTORY)
             file(MAKE_DIRECTORY "${ODB_COMPILE_OUTPUT_DIR}/${dname}")
-            set(ODB_INCLUDE_PREFIX --include-prefix ${dname} --include-with-brackets --output-dir "${ODB_COMPILE_OUTPUT_DIR}/${dname}")
+            set(ODB_INCLUDE_PREFIX --include-prefix ${dname} --output-dir "${ODB_COMPILE_OUTPUT_DIR}/${dname}")
         endif()
 		foreach(sfx ${ODB_COMPILE_FILE_SUFFIX})
 			string(REGEX REPLACE ":.*$" "" pfx "${sfx}")
@@ -166,7 +170,7 @@ function(odb_compile outvar)
 			string(REPLACE ";" " " _msg "${_msg}")
 			message(STATUS "${_msg}")
 		endif()
-
+        message("${ODB_ARGS}")
 		add_custom_command(OUTPUT ${outputs}
 			COMMAND ${ODB_EXECUTABLE} ${ODB_ARGS} ${ODB_INCLUDE_PREFIX} "${input}"
 			DEPENDS "${input}"

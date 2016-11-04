@@ -4,9 +4,15 @@
 
 #pragma once
 #include <odb/core.hxx>
-#include <Eigen/Eigen>
+#include <Eigen/Core>
+#include <Eigen/Geometry>
+#include <vector>
+#include <memory>
+#include <memory>
 //#include "spatial_traits.h"
 #pragma db value(Eigen::Vector3f) type("blob")
+#pragma db value(Eigen::VectorXf) type("blob")
+#pragma db value(Eigen::Quaternionf) type("blob")
 //#pragma db member(Eigen::Vector3f::x) virtual(float)
 //#pragma db member(Eigen::Vector3f::y) virtual(float)
 //#pragma db member(Eigen::Vector3f::z) virtual(float)
@@ -16,7 +22,62 @@ class vertex {
 public:
     Eigen::Vector3f position;
     Eigen::Vector3f normal;
-    Eigen::Vector3f texcoord;
+    std::vector<Eigen::VectorXf> texcoords;
+private:
+    friend class odb::access;
+
+    #pragma db id auto
+    unsigned int id;
+};
+
+#pragma db object table("rendering_mesh") session
+class mesh {
+public:
+	std::vector<std::shared_ptr<vertex>> verts;
+	std::vector<unsigned int> idx;
+private:
+	friend class odb::access;
+
+	#pragma db id auto
+	unsigned int id;
+};
+
+#pragma db object table("rendering_texture")
+class texture {
+public:
+    int width;
+    int height;
+
+    #pragma db type("blob")
+    std::vector<unsigned char> data;
+private:
+    friend class odb::access;
+
+    #pragma db id auto
+    unsigned int id;
+};
+
+#pragma db object table("rendering_graph_node")
+class graph_node {
+public:
+    std::string name;
+    Eigen::Vector3f position;
+    Eigen::Vector3f scale;
+    Eigen::Quaternionf rotation;
+    #pragma db null
+    std::shared_ptr<graph_node> parent;
+
+private:
+    friend class odb::access;
+    #pragma db id auto
+    unsigned int id;
+};
+
+#pragma db object table("rendering_graph_node_meshes")
+class graph_meshes {
+public:
+    std::shared_ptr<graph_node> node;
+    std::shared_ptr<graph_node> mesh;
 private:
     friend class odb::access;
 

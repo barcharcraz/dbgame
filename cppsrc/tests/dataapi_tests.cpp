@@ -52,7 +52,7 @@ TEST_F(DatabaseTests, VectorStorageWorks) {
     vertex v;
     v.normal = vec;
     v.position = vec;
-    v.texcoord = vec;
+    v.texcoords = {VectorXf(vec)};
     odb::transaction t(db.begin());
     auto id = db.persist(v);
     t.commit();
@@ -61,6 +61,9 @@ TEST_F(DatabaseTests, VectorStorageWorks) {
     db.load<vertex>(id, v2);
     t.commit();
     ASSERT_EQ(v2.position, vec);
-    ASSERT_EQ(v2.texcoord, vec);
+    for(auto& elm : v2.texcoords) {
+        ASSERT_EQ(elm, vec);
+    }
+
     ASSERT_EQ(v2.normal, vec);
 }

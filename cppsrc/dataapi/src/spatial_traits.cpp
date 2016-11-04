@@ -20,7 +20,6 @@
 #include <odb/core.hxx>
 #include <odb/traits.hxx>
 #include <odb/sqlite/traits.hxx>
-
 #include <Eigen/Core>
 
 #pragma GCC diagnostic pop
@@ -63,24 +62,5 @@ namespace odb {
             istringstream stream(str);
             v = reader.read(stream);
         }
-
-        void value_traits<Vector3f, id_blob>::set_image(image_type &b, size_t &n, bool &is_null, const value_type &v) {
-            is_null = false;
-            n = sizeof(Vector3f);
-            b.capacity(n);
-            memmove(b.data(), &v, n);
-        }
-
-        void
-        value_traits<Vector3f, id_blob>::set_value(value_type &v, const details::buffer &b, size_t n, bool is_null) {
-            if (is_null) {
-                v = Vector3f(0, 0, 0);
-                return;
-            }
-            assert(n == sizeof(Vector3f));
-            memmove(&v, b.data(), sizeof(value_type));
-
-        }
-
     }
 }
