@@ -59,11 +59,17 @@ namespace gl {
 			if (p.fragment) glAttachShader(p.handle, p.fragment->handle);
 			if (p.compute) glAttachShader(p.handle, p.compute->handle);
 			glLinkProgram(p.handle);
+            GLint result = 0;
+            glGetProgramiv(p.handle, GL_LINK_STATUS, &result);
+            p.compiled = result != (int)GL_FALSE;
 			int max_length = 0;
 			glGetProgramiv(p.handle, GL_INFO_LOG_LENGTH, &max_length);
-
-			
+            string log(max_length, '\0');
+            glGetProgramInfoLog(p.handle, 0, 0, &log[0]);
+            p.errors = log;
+            db.update(s);
 		}
+        t.commit();
 	}
 
 }

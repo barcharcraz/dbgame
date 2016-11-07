@@ -62,7 +62,7 @@ void create_vertex_buffers(database &db) {
         db.persist(mesh_vbo);
     }
     t.commit();
-};
+}
 
 void create_index_buffers(database &db) {
     transaction t(db.begin());
