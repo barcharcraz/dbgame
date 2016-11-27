@@ -5,7 +5,6 @@ set(USE_FBX OFF CACHE BOOL "Use the FBX library")
 find_package(Sqlite3 REQUIRED)
 find_package(ODB REQUIRED)
 find_package(glbinding REQUIRED)
-find_package(Boost COMPONENTS filesystem REQUIRED)
 find_package(assimp REQUIRED)
 
 
@@ -16,9 +15,9 @@ if(USE_FBX)
 endif()
 add_library(tools ${tools_src})
 
-target_link_libraries(tools PUBLIC dataapi Boost::filesystem
+target_link_libraries(tools PUBLIC dataapi
         ${ODB_LIBRARIES}
-        ${ASSIMP_LIBRARIES}
+        ${ASSIMP_LIBRARY}
         ${FBX_LIBRARIES})
 target_include_directories(tools
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>

@@ -5,14 +5,15 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <unordered_map>
 #include <glbinding/gl/gl.h>
-#include <boost/filesystem.hpp>
+#include <experimental/filesystem>
 using namespace std::literals::string_literals;
 using namespace std;
 using namespace gl;
-using namespace boost::filesystem;
+using namespace std::experimental::filesystem;
 using namespace dbgame::data;
 static const unordered_map<string, GLenum> type_mapping{
     {".ps"s, GL_FRAGMENT_SHADER},
@@ -28,11 +29,11 @@ shader load_shader(const string& file, GLenum shader_type = GL_INVALID_ENUM) {
     result.compiled = false;
     result.errors = ""s;
     result.handle = 0;
-    int idx = file.rfind("/");
+    int idx = (int)file.rfind("/");
     result.shader_name = file.substr(idx);
     
     if(shader_type == GL_INVALID_ENUM) {
-        idx = file.rfind(".");
+        idx = (int)file.rfind(".");
         string ext = file.substr(idx);
         shader_type = type_mapping.at(ext);
     }

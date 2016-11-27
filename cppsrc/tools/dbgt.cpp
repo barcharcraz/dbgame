@@ -10,6 +10,7 @@
 #include <odb/schema-catalog.hxx>
 #include <sqlite3.h>
 #include <gflags/gflags.h>
+
 using namespace std;
 using namespace dbgame;
 unique_ptr<odb::sqlite::database> open_sqlite(const string& file) {

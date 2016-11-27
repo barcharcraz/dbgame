@@ -13,16 +13,10 @@
 #include <geos/geom/Geometry.h>
 #include <geos/io/WKBWriter.h>
 #include <geos/io/WKBReader.h>
-
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#pragma GCC diagnostic ignored "-Wignored-attributes"
 #include <odb/core.hxx>
 #include <odb/traits.hxx>
 #include <odb/sqlite/traits.hxx>
 #include <Eigen/Core>
-
-#pragma GCC diagnostic pop
 
 #include <string>
 #include <sstream>

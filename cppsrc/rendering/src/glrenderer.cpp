@@ -26,9 +26,9 @@ void create_vertex_buffers(database &db) {
         vbo mesh_vbo;
         int texcoord_size = 0;
         for (VectorXf &v : res.mesh->verts[0]->texcoords) {
-            texcoord_size += sizeof(float) * v.size();
+            texcoord_size += (int)sizeof(float) * (int)v.size();
         }
-        int num_verts = res.mesh->verts.size();
+        int num_verts = (int)res.mesh->verts.size();
         glGenBuffers(1, &mesh_vbo.position);
         glGenBuffers(1, &mesh_vbo.normal);
         glGenBuffers(1, &mesh_vbo.texcoord);
@@ -56,6 +56,7 @@ void create_vertex_buffers(database &db) {
                 texbuf += texcoord.size();
             }
         }
+		mesh_vbo.texcoord_stride = texcoord_size;
         glUnmapBuffer(GL_ARRAY_BUFFER);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         mesh_vbo.mesh = res.mesh;
@@ -79,7 +80,10 @@ void create_index_buffers(database &db) {
     t.commit();
 }
 
+void create_vertex_arrays(database& db) {
+	transaction t(db.begin());
 
+}
 
 }
 }

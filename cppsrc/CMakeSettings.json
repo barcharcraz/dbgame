@@ -1,0 +1,30 @@
+{
+  "configurations": [
+    {
+      "name": "Visual Studio 15 x86",
+      "generator": "Visual Studio 15 2017",
+      "buildRoot": "${env.LOCALAPPDATA}\\CMakeBuild\\${workspaceHash}\\build\\${name}",
+      "cmakeCommandArgs": " -DCMAKE_TOOLCHAIN_FILE=C:\\Users\\barch\\source\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake",
+      "buildCommandArgs": "-m -v:minimal"
+    },
+    {
+      "name": "Visual Studio 15 x64",
+      "generator": "Visual Studio 15 2017 Win64",
+      "buildRoot": "${env.LOCALAPPDATA}\\CMakeBuild\\${workspaceHash}\\build\\${name}",
+      "cmakeCommandArgs": " -DCMAKE_TOOLCHAIN_FILE=C:\\Users\\barch\\source\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake",
+      "buildCommandArgs": "-m -v:minimal",
+      "variables": [
+        {
+          "name": "ODB_EXECUTABLE",
+          "value": "C:\\Users\\barch\\source\\odb-2.4.0-i686-windows\\bin\\odb.exe"
+        },
+        {
+          "name": "CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES",
+          "value": "C:\\Users\\barch\\source\\vcpkg\\installed\\x64-windows\\include"
+        }
+        
+      ]
+      
+    }
+  ]
+}

@@ -67,7 +67,7 @@ namespace gl {
             string log(max_length, '\0');
             glGetProgramInfoLog(p.handle, 0, 0, &log[0]);
             p.errors = log;
-            db.update(s);
+            db.update(p);
 		}
         t.commit();
 	}

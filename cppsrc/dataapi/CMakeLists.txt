@@ -1,7 +1,6 @@
 project(datapai VERSION 0.1 LANGUAGES CXX)
 find_package(Sqlite3 REQUIRED)
 #find_package(ponder CONFIG REQUIRED)
-find_package(Boost REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(ODB REQUIRED COMPONENTS sqlite libodb)
 find_package(glbinding REQUIRED)
@@ -29,7 +28,9 @@ odb_compile(dataapi_src FILES ${dataapi_h} DB sqlite GENERATE_QUERY GENERATE_SCH
         ${EIGEN3_INCLUDE_DIR}
         ${SQLITE3_INCLUDE_DIRS})
 add_library(dataapi ${dataapi_src} include/dbgame/dataapi.h)
-
+if(MSVC)
+target_compile_options(dataapi PUBLIC /wd4068)
+endif()
 target_include_directories(dataapi PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${ODB_COMPILE_OUTPUT_DIR}>
@@ -39,9 +40,8 @@ target_include_directories(dataapi PUBLIC
     PRIVATE src
         ${GEOS_INCLUDE_DIR})
 target_link_libraries(dataapi PRIVATE odb::libodb-sqlite odb::libodb glbinding::glbinding
-        ${GEOS_LIBRARY_CPP})
+        ${GEOS_LIBRARY})
 
-cotire(dataapi)
         
 install(TARGETS dataapi EXPORT dataapiConfig
     ARCHIVE DESTINATION lib

@@ -7,6 +7,7 @@
 #include <string>
 #include <queue>
 #include <utility>
+
 #include <odb/core.hxx>
 #include <odb/database.hxx>
 #include <assimp/Importer.hpp>
@@ -40,15 +41,15 @@ vector<unsigned int> import_meshes(const aiScene *scene, odb::database &db) {
             unsigned int *numcomp = amesh->mNumUVComponents;
             for (int k = 0; k < numtexchan; ++k) {
                 mesh.verts[j]->texcoords[k] = VectorXf(numcomp[k]);
-                for (int l = 0; l < numcomp[k]; ++l) {
+                for (int l = 0; l < (int)numcomp[k]; ++l) {
                     mesh.verts[j]->texcoords[k](l) = amesh->mTextureCoords[k][j][l];
                 }
             }
             db.persist(*mesh.verts[j]);
         }
         mesh.idx.resize(amesh->mNumFaces);
-        for (int j = 0; j < amesh->mNumFaces; ++j) {
-            for (int k = 0; k < amesh->mFaces[j].mNumIndices; ++k) {
+        for (int j = 0; j < (int)amesh->mNumFaces; ++j) {
+            for (int k = 0; k < (int)amesh->mFaces[j].mNumIndices; ++k) {
                 mesh.idx.push_back(amesh->mFaces[j].mIndices[k]);
             }
         }
@@ -63,7 +64,7 @@ vector<unsigned int> import_meshes(const aiScene *scene, odb::database &db) {
 void import_textures(const aiScene *scene, odb::database &db) {
     odb::transaction t(db.begin());
 
-    for (int i = 0; i < scene->mNumTextures; ++i) {
+    for (int i = 0; i < (int)scene->mNumTextures; ++i) {
         aiTexture *atex = scene->mTextures[i];
         texture tex;
         tex.height = atex->mHeight;
@@ -108,7 +109,7 @@ void import_nodes(const aiScene *scene, odb::database& db, const vector<unsigned
         tie(anode, node) = nodes.front();
         db.persist(*node);
         nodes.pop();
-        for(int i = 0; i < anode->mNumChildren; ++i) {
+        for(int i = 0; i < (int)anode->mNumChildren; ++i) {
             auto achild = anode->mChildren[i];
             auto child = make_shared<graph_node>(create_node(anode, node));
             nodes.push(make_pair(achild, child));

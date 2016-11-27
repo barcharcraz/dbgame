@@ -37,12 +37,14 @@ if (ASSIMP_LIBRARIES)
     # moment. They also need to be added to REQUIRED_VARS if added
     unset(ASSIMP_INCLUDE_DIRS)
     unset(ASSIMP_LIBRARY_DIRS)
-
+	find_library(ASSIMP_LIBRARY
+		NAMES ${ASSIMP_LIBRARIES}
+		)
     # Like the found path
     set(ASSIMP_FOUND TRUE)
     message("-- Found ASSIMP")
 else ()
-    find_library(ASSIMP_LIBRARIES
+    find_library(ASSIMP_LIBRARY
             NAMES assimp
             )
 

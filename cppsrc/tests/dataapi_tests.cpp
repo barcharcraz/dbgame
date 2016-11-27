@@ -34,7 +34,7 @@ protected:
 
 
 TEST_F(DatabaseTests, VectorStorageWorks) {
-    Vector3f vec(3, 1.2, 0.001);
+    Vector3f vec(3.0f, 1.2f, 0.001f);
     vertex v;
     v.normal = vec;
     v.position = vec;

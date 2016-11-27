@@ -3,6 +3,7 @@
 //
 
 #pragma once
+
 #include <glbinding/gl/enum.h>
 #include <odb/core.hxx>
 #include <memory>
@@ -30,6 +31,7 @@ public:
     unsigned int position;
     unsigned int normal;
     unsigned int texcoord;
+	unsigned int texcoord_stride;
 private:
     friend class odb::access;
     #pragma db id auto
@@ -46,6 +48,25 @@ private:
 
     #pragma db id auto
     unsigned int id;
+};
+#pragma db object
+class vao {
+public:
+	std::shared_ptr<data::mesh> mesh;
+	unsigned int handle;
+private:
+	#pragma db id auto
+	unsigned int id;
+private:
+	friend class odb::access;
+};
+
+#pragma db view object(mesh) object(inner vbo) object(inner idx) object(left vao)
+struct vao_view {
+	std::shared_ptr<data::mesh> mesh;
+	std::shared_ptr<data::vbo> vbo;
+	std::shared_ptr<data::idx> idx;
+	std::shared_ptr<data::vao> vao;
 };
 
 #pragma db view object(mesh) object(vbo)

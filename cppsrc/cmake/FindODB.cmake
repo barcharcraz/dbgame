@@ -38,15 +38,19 @@ function(find_odb_api component)
 	find_path(ODB_${component}_INCLUDE_DIR
 			NAMES odb/${component}/version.hxx
 			HINTS
+			/usr/local
+			/lib
 			${ODB_LIBODB_INCLUDE_DIRS}
 			${PC_ODB_${component}_INCLUDE_DIRS})
 
 	find_library(ODB_${component}_LIBRARY
 			NAMES odb-${component} libodb-${component}
 			HINTS
+			/usr/local
+			/lib
 			${ODB_LIBRARY_PATH}
 			${PC_ODB_${component}_LIBRARY_DIRS})
-
+	message(INFO ${component})
 	mark_as_advanced(ODB_${component}_INCLUDE_DIR ODB_${component}_LIBRARY)
 
 	if(ODB_${component_u}_INCLUDE_DIRS AND ODB_${component_u}_LIBRARIES)
@@ -67,11 +71,11 @@ find_program(odb_BIN
 		HINTS
 		${libodb_INCLUDE_DIR}/../bin)
 set(ODB_EXECUTABLE ${odb_BIN} CACHE STRING "ODB executable")
-find_package(odb NO_MODULE COMPONENTS ${odb_FIND_COMPONENTS} OPTIONAL QUIET)
+find_package(odb NO_MODULE COMPONENTS ${odb_FIND_COMPONENTS} QUIET)
 if(NOT odb_FOUND)
 	find_package(PkgConfig)
     pkg_check_modules(PC_LIBODB "libodb")
-
+	message(INFO "ODB NOT FOUND")
 
 
 #set(ODB_LIBRARY_PATH "" CACHE STRING "Common library search hint for all ODB libs")
@@ -85,6 +89,7 @@ if(NOT odb_FOUND)
     find_library(ODB_libodb_LIBRARY
             NAMES odb libodb
             HINTS
+			/usr/local
             ${ODB_LIBRARY_PATH}
     )
 
@@ -96,7 +101,7 @@ if(NOT odb_FOUND)
                 INTERFACE_INCLUDE_DIRECTORIES ${ODB_libodb_INCLUDE_DIR}
                 IMPORTED_LOCATION ${ODB_libodb_LIBRARY})
     endif()
-    foreach(component ${ODB_FIND_COMPONENTS})
+    foreach(component ${odb_FIND_COMPONENTS})
         if(TARGET odb::libodb-${component})
             continue()
         endif()
@@ -107,7 +112,6 @@ if(NOT odb_FOUND)
                 IMPORTED_LOCATION ${ODB_${component}_LIBRARY})
 
     endforeach()
-
+	include(FindPackageHandleStandardArgs)
+	find_package_handle_standard_args(odb DEFAULT_MSG ODB_libodb_LIBRARY ODB_libodb_INCLUDE_DIR)
 endif()
-include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(odb DEFAULT_MSG ODB_libodb_LIBRARY ODB_libodb_INCLUDE_DIR)

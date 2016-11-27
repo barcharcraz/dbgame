@@ -7,5 +7,5 @@ find_package(GEOS REQUIRED)
 set(dbgame_tests_src dataapi_tests.cpp test_types.h.h)
 
 add_executable(dbgame_tests ${dbgame_tests_src})
-target_link_libraries(dbgame_tests PRIVATE GTest::Main dataapi ${GEOS_LIBRARY})
+target_link_libraries(dbgame_tests PRIVATE GTest::GTest GTest::Main dataapi ${GEOS_LIBRARY})
 target_include_directories(dbgame_tests PRIVATE ${EIGEN3_INCLUDE_DIRECTORIES})
