@@ -2,6 +2,7 @@
 // Created by barch on 10/17/2016.
 //
 
+#include "glshaders.h"
 #include "gldata.h"
 #include <glbinding/gl/gl.h>
 #include <odb/core.hxx>

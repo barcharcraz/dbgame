@@ -10,8 +10,8 @@
 #include <dbgame/dataapi/data_rendering.h>
 namespace dbgame {
 namespace data {
+#pragma db object table("opengl_call")
 class call {
-
 public:
     call() = default;
     int program;
@@ -20,7 +20,7 @@ public:
     gl::GLenum prim_type;
 private:
     friend class odb::access;
-#pragma db id auto
+    #pragma db id auto
     unsigned int id;
 };
 
@@ -61,7 +61,7 @@ private:
 	friend class odb::access;
 };
 
-#pragma db view object(mesh) object(inner vbo) object(inner idx) object(left vao)
+#pragma db view object(mesh) object(vbo inner) object(idx inner) object(vao left)
 struct vao_view {
 	std::shared_ptr<data::mesh> mesh;
 	std::shared_ptr<data::vbo> vbo;

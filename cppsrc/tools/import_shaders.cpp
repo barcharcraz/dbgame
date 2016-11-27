@@ -15,6 +15,7 @@ using namespace std;
 using namespace gl;
 using namespace std::experimental::filesystem;
 using namespace dbgame::data;
+namespace dbgame {
 static const unordered_map<string, GLenum> type_mapping{
     {".ps"s, GL_FRAGMENT_SHADER},
     {".vs"s, GL_VERTEX_SHADER}
@@ -53,4 +54,6 @@ vector<shader> load_shader_directory(const string& dir) {
         }
     }
     return result;
+}
+
 }

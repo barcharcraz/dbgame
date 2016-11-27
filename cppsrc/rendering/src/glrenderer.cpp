@@ -1,7 +1,7 @@
 //
 // Created by barch on 10/15/2016.
 //
-
+#include "glrenderer.h"
 #include <dbgame/dataapi.h>
 #include <odb/core.hxx>
 #include <odb/database.hxx>
@@ -81,7 +81,51 @@ void create_index_buffers(database &db) {
 
 void create_vertex_arrays(database& db) {
 	transaction t(db.begin());
+    result<vao_view> vaos = db.query(query<vao_view>{query<vao_view>::vao::id.is_null()});
+    for(vao_view &res : vaos) {
+        vao vertarray;
+        glGenVertexArrays(1, &vertarray.handle);
+        glBindVertexArray(vertarray.handle);
+        glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
+        glEnableVertexAttribArray(2);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, res.idx->buf);
+        glBindBuffer(GL_ARRAY_BUFFER, res.vbo->position);
+        glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, nullptr);
+        glBindBuffer(GL_ARRAY_BUFFER, res.vbo->normal);
+        glVertexAttribPointer(1, 3, GL_FLOAT, false, 0, nullptr);
+        //TODO: also bind texture coords
+        glBindVertexArray(0);
+        vertarray.mesh = res.mesh;
+        db.persist(vertarray);
+    }
+    t.commit();
+}
 
+void create_opengl_calls(database& db) {
+    transaction t(db.begin());
+    auto result = db.query<vao>();
+    auto prog = db.load<data::program>(0);
+    for(vao &res : result) {
+        call c;
+        c.prim_type = GL_TRIANGLES;
+        c.count = res.mesh->idx.size();
+        c.program = prog->handle;
+        c.vao = res.handle;
+        db.persist(c);
+    }
+    t.commit();
+}
+
+void execute_draws(database& db) {
+    transaction t(db.begin());
+    auto result = db.query<call>();
+    for(call &res : result) {
+        glUseProgram(res.program);
+        glBindVertexArray(res.vao);
+        glDrawElements(GL_TRIANGLES, res.count, GL_UNSIGNED_INT, nullptr);
+    }
+    t.commit();
 }
 
 }

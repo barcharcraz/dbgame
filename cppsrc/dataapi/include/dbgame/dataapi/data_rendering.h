@@ -31,10 +31,20 @@ private:
     unsigned int id;
 };
 
+
+/**
+ * \name mesh
+ * \brief Database representation of a mash
+ * 
+ * the mesh object represents the high level mesh representation
+ * that's stored in the database.
+ */
 #pragma db object table("rendering_mesh") session
 class mesh {
 public:
+    /** list of vertices in the mesh */
 	std::vector<std::shared_ptr<vertex>> verts;
+    /** list of mesh indices, this should be in triangle format */
 	std::vector<unsigned int> idx;
 private:
 	friend class odb::access;

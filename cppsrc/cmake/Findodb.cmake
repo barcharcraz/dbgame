@@ -52,7 +52,6 @@ function(find_odb_api component)
 			/usr/lib
 			${ODB_LIBRARY_PATH}
 			${PC_ODB_${component}_LIBRARY_DIRS})
-	message(INFO ${component})
 	mark_as_advanced(ODB_${component}_INCLUDE_DIR ODB_${component}_LIBRARY)
 
 	if(ODB_${component_u}_INCLUDE_DIRS AND ODB_${component_u}_LIBRARIES)
@@ -77,7 +76,6 @@ find_package(odb NO_MODULE COMPONENTS ${odb_FIND_COMPONENTS} QUIET)
 if(NOT odb_FOUND)
 	find_package(PkgConfig)
     pkg_check_modules(PC_LIBODB "libodb")
-	message(INFO "ODB NOT FOUND")
 
 
 #set(ODB_LIBRARY_PATH "" CACHE STRING "Common library search hint for all ODB libs")
@@ -101,8 +99,6 @@ if(NOT odb_FOUND)
 
     if(NOT TARGET odb::libodb)
         add_library(odb::libodb UNKNOWN IMPORTED)
-        message(${ODB_libodb_INCLUDE_DIR})
-        message(${ODB_libodb_LIBRARY})
     endif()
     set_target_properties(odb::libodb PROPERTIES
             INTERFACE_INCLUDE_DIRECTORIES ${ODB_libodb_INCLUDE_DIR}

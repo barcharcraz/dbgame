@@ -11,6 +11,9 @@ set(rendering_src
 set(rendering_odb_src
         src/gldata.h
         )
+set(rendering_h
+    include/dbgame/rendering/glrenderer.h
+    include/dbgame/rendering/glshaders.h)
 get_target_property(dataapi_include_dirs dataapi INCLUDE_DIRECTORIES)
 #string(REPLACE ";" " " dataapi_include_dirs "${dataapi_include_dirs}")
 odb_compile(rendering_src FILES ${rendering_odb_src} DB sqlite GENERATE_QUERY GENERATE_SCHEMA
@@ -21,9 +24,27 @@ odb_compile(rendering_src FILES ${rendering_odb_src} DB sqlite GENERATE_QUERY GE
                 ${EIGEN3_INCLUDE_DIR}
         )
 
-add_library(rendering ${rendering_src})
+add_library(rendering ${rendering_src} ${rendering_h})
+add_library(dbgame::rendering ALIAS rendering)
 target_link_libraries(rendering PRIVATE ${ODB_LIBRARIES}
-        glbinding::glbinding dataapi)
+        glbinding::glbinding dataapi
+
+        )
+set_target_properties(rendering PROPERTIES CXX_STANDARD 14)
 
 target_include_directories(rendering PRIVATE ${EIGEN3_INCLUDE_DIR}
-        ${ODB_COMPILE_OUTPUT_DIR} ${ODB_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR}/src)
+        ${ODB_COMPILE_OUTPUT_DIR} ${ODB_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR}/src
+        include/dbgame/rendering/
+        INTERFACE
+            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+            $<INSTALL_INTERFACE:include>
+)
+
+install(TARGETS rendering EXPORT renderingConfig
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+    RUNTIME DESTINATION bin)
+    
+install(DIRECTORY include/ DESTINATION include/dbgame/rendering/)
+install(EXPORT renderingConfig DESTINATION share/dbgame/cmake NAMESPACE dbgame)
+export(TARGETS rendering NAMESPACE dbgame FILE renderingConfig.cmake)

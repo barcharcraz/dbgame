@@ -5,7 +5,7 @@ set(USE_FBX OFF CACHE BOOL "Use the FBX library")
 find_package(Sqlite3 REQUIRED)
 find_package(odb REQUIRED)
 find_package(glbinding REQUIRED)
-find_package(assimp REQUIRED)
+find_package(Assimp REQUIRED)
 
 
 set(tools_src import_shaders.cpp import_shaders.h import_assets.cpp import_assets.h)
@@ -14,7 +14,6 @@ if(USE_FBX)
     set(tools_src ${tools_src} fbx_import_assets.cpp)
 endif()
 add_library(tools ${tools_src})
-
 target_link_libraries(tools PUBLIC dataapi
         ${ODB_LIBRARIES}
         ${ASSIMP_LIBRARY}
@@ -25,5 +24,3 @@ target_include_directories(tools
         ${FBX_INCLUDE_DIRS})
 
 add_subdirectory(commands)
-
-cotire(tools)
