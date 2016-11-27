@@ -39,7 +39,8 @@ function(find_odb_api component)
 			NAMES odb/${component}/version.hxx
 			HINTS
 			/usr/local
-			/lib
+			/include
+			/usr/include
 			${ODB_LIBODB_INCLUDE_DIRS}
 			${PC_ODB_${component}_INCLUDE_DIRS})
 
@@ -48,6 +49,7 @@ function(find_odb_api component)
 			HINTS
 			/usr/local
 			/lib
+			/usr/lib
 			${ODB_LIBRARY_PATH}
 			${PC_ODB_${component}_LIBRARY_DIRS})
 	message(INFO ${component})
@@ -89,7 +91,11 @@ if(NOT odb_FOUND)
     find_library(ODB_libodb_LIBRARY
             NAMES odb libodb
             HINTS
-			/usr/local
+            /usr/local
+            /usr/lib
+            /usr/lib/odb
+            /lib/odb
+            /usr/local/lib/odb
             ${ODB_LIBRARY_PATH}
     )
 
@@ -97,16 +103,16 @@ if(NOT odb_FOUND)
         add_library(odb::libodb UNKNOWN IMPORTED)
         message(${ODB_libodb_INCLUDE_DIR})
         message(${ODB_libodb_LIBRARY})
-        set_target_properties(odb::libodb PROPERTIES
-                INTERFACE_INCLUDE_DIRECTORIES ${ODB_libodb_INCLUDE_DIR}
-                IMPORTED_LOCATION ${ODB_libodb_LIBRARY})
     endif()
+    set_target_properties(odb::libodb PROPERTIES
+            INTERFACE_INCLUDE_DIRECTORIES ${ODB_libodb_INCLUDE_DIR}
+            IMPORTED_LOCATION ${ODB_libodb_LIBRARY})
+    
     foreach(component ${odb_FIND_COMPONENTS})
-        if(TARGET odb::libodb-${component})
-            continue()
-        endif()
         find_odb_api(${component})
-        add_library(odb::libodb-${component} UNKNOWN IMPORTED)
+        if(NOT TARGET odb::libodb-${component})
+            add_library(odb::libodb-${component} UNKNOWN IMPORTED)
+        endif()
         set_target_properties(odb::libodb-${component} PROPERTIES
                 INTERFACE_INCLUDE_DIRECTORIES ${ODB_${component}_INCLUDE_DIR}
                 IMPORTED_LOCATION ${ODB_${component}_LIBRARY})

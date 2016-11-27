@@ -9,7 +9,6 @@
 #include "gldata.h"
 #include <gldata_odb.h>
 #include <memory>
-
 using namespace std;
 using namespace odb;
 using namespace Eigen;

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.6)
 project(dbgame_tests VERSION 0.1 LANGUAGES C CXX)
 find_package(GTest REQUIRED)
 find_package(Eigen3 REQUIRED)
-find_package(ODB REQUIRED COMPONENTS sqlite)
+find_package(odb REQUIRED COMPONENTS sqlite)
 find_package(GEOS REQUIRED)
 set(dbgame_tests_src dataapi_tests.cpp test_types.h.h)
 

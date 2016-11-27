@@ -1,5 +1,5 @@
 project(rendering VERSION 0.1 LANGUAGES CXX)
-find_package(ODB REQUIRED COMPONENTS sqlite)
+find_package(odb REQUIRED COMPONENTS sqlite)
 find_package(Eigen3 REQUIRED)
 find_package(glbinding REQUIRED)
 include(${ODB_USE_FILE})

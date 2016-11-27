@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.5)
 project(dbgame_tools VERSION 0.1 LANGUAGES CXX)
 set(USE_FBX OFF CACHE BOOL "Use the FBX library")
 find_package(Sqlite3 REQUIRED)
-find_package(ODB REQUIRED)
+find_package(odb REQUIRED)
 find_package(glbinding REQUIRED)
 find_package(assimp REQUIRED)
 
