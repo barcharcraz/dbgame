@@ -4,4 +4,4 @@ add_executable(import_assets_command import_assets_cmd.cpp)
 target_link_libraries(import_assets_command PRIVATE gflags-shared tools dataapi)
 
 add_executable(import_shaders_command import_shaders_cmd.cpp)
-target_link_libraries(import_shaders_command PRIVATE gflags-shared tools dataapi dbgame::rendering stdc++fs)
+target_link_libraries(import_shaders_command PRIVATE gflags-shared tools dataapi dbgame::rendering)

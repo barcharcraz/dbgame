@@ -8,9 +8,10 @@ set(ODB_COMPILE_FILE_SUFFIX "_odb")
 set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
 
 function(odb_compile outvar)
-	if(NOT ODB_EXECUTABLE)
+    if(NOT odb_BIN)
 		message(FATAL_ERROR "odb compiler executable not found")
-	endif()
+    endif()
+    set(ODB_EXECUTABLE ${odb_BIN})
 
 	set(options GENERATE_QUERY GENERATE_SESSION GENERATE_SCHEMA GENERATE_PREPARED)
 	set(oneValueParams SCHEMA_FORMAT SCHEMA_NAME TABLE_PREFIX INCLUDE_PREFIX

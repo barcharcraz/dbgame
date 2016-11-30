@@ -39,6 +39,8 @@ target_include_directories(rendering PRIVATE ${EIGEN3_INCLUDE_DIR}
             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
             $<INSTALL_INTERFACE:include>
 )
+add_subdirectory(shaders)
+
 
 install(TARGETS rendering EXPORT renderingConfig
     ARCHIVE DESTINATION lib
